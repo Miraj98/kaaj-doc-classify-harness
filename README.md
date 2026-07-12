@@ -53,6 +53,7 @@ The `File` class already provides:
 - `get_page_count()`
 - `get_page_text(page_number)`
 - `get_page_lines(page_number, count, from_end)`
+- `get_page_image(page_number)` — returns a JPEG data URL
 
 The `Agent` class already handles the model/tool loop and parallel tool calls.
 `Tool` bundles an OpenAI Responses function definition with an async handler.

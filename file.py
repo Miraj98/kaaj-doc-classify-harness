@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import base64
 import json
 from pathlib import Path
+
+import pymupdf
 
 
 class File:
@@ -46,3 +49,13 @@ class File:
         lines = (await self.get_page_text(page_number)).splitlines()
         selected = lines[-count:] if from_end else lines[:count]
         return "\n".join(selected)
+
+    async def get_page_image(self, page_number: int) -> str:
+        """Render a 1-indexed PDF page and return it as a JPEG data URL."""
+
+        pdf = pymupdf.open(stream=await self.get_content(), filetype="pdf")
+        page = pdf.load_page(page_number - 1)
+        image = page.get_pixmap(matrix=pymupdf.Matrix(1.5, 1.5), alpha=False)
+        encoded = base64.b64encode(image.tobytes("jpeg", jpg_quality=85)).decode()
+        pdf.close()
+        return f"data:image/jpeg;base64,{encoded}"
