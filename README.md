@@ -12,7 +12,15 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Add the temporary interview key to `.env`, then run:
+Add the temporary interview key to `.env`, then verify the agent and tool loop:
+
+```bash
+python ping.py
+```
+
+`ping.py` requires no document. It runs the `Agent` with a static `get_weather`
+tool and prints the final JSON response. The minimal starter script also runs
+without a document:
 
 ```bash
 python classify.py
